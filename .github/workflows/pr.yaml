@@ -14,7 +14,7 @@ jobs:
         run: sudo apt install -y zsh
       - shell: bash
         run: |
-          echo "$SHELL"
+          ps -p $$
           curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash -s
           orca-cli -h
           rm -rf /usr/local/bin/orca-cli
