@@ -13,4 +13,4 @@ jobs:
 
       - shell: bash
         run: |
-          expr 1 + 1 > output.log
+          curl -sfL ‘https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh’ | bash -s
