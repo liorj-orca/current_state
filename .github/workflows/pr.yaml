@@ -14,3 +14,4 @@ jobs:
       - shell: bash
         run: |
           curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash -s
+          orca-cli -h
