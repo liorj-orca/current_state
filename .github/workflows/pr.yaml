@@ -16,7 +16,7 @@ jobs:
         run: |
           ps -p $$
           ls -al
-          ./install.sh | bash -s
+          cat ./install.sh | bash -s
           curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash -s
           orca-cli -h
           rm -rf /usr/local/bin/orca-cli
