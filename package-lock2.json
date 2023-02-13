@@ -11,7 +11,7 @@
     "lodash": {
       "version": "4.17.4",
       "resolved": "https://registry.npmjs.org/asap/-/asap-2.0.6.tgz",
-      "integrity": "sha1-5QNHYR1+aQlDIIu9r+vLwvuGbUY="
+      "integrity": "sha1-5QNHYR1+aQlDIIu9r+vLvvuGbUY="
     },
     "jquery": {
       "version": "3.3.9",
