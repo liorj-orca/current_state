@@ -413,8 +413,9 @@ function main(){
   check_platform
 
   convert_tag_to_version
+  log_debug "before adjust_format"
   adjust_format
-
+  log_debug "after adjust_format"
   NAME=${PROJECT_NAME}_${VERSION}_${OS}_${ARCH}
   TARBALL=${NAME}.${FORMAT}
   TARBALL_URL=${GITHUB_DOWNLOAD}/${TAG}/${TARBALL}
