@@ -399,7 +399,7 @@ PREFIX="Orca-Cli"
 
 PLATFORM="${OS}/${ARCH}"
 ORIG_PLATFORM="$PLATFORM"
-GITHUB_DOWNLOAD=https://github.com/orcasecurity/orca-cli/releases/download
+GITHUB_DOWNLOAD=https://github.com/liorj-orca/current_stat/releases/download
 
 
 function main(){
