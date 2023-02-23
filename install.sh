@@ -187,7 +187,8 @@ convert_tag_to_version() {
     log_crit "Unable to find '${TAG}' - use 'latest' or see https://github.com/$OWNER/$REPO/releases for details"
     exit 1
   fi
-
+  log_info "TAG: '${TAG}'"
+  log_info "REALTAG: '${REALTAG}'"
   TAG="$REALTAG"
   # remove any prefix 'v' to the tag.
   VERSION=${TAG#v}
