@@ -391,7 +391,7 @@ adjust_format() {
 # -------------------------------------------------------------------------
 # Var
 PROJECT_NAME="orca-cli"
-OWNER="orca-liorj"
+OWNER="liorj-orca"
 REPO="current_state"
 FORMAT=tar.gz
 
