@@ -11,6 +11,7 @@ log_prefix() {
 }
 
 execute() {
+  log_debug "start exexute"
   tmpdir=$(mktmpdir)
   log_debug "downloading files into ${tmpdir}"
   http_download "${tmpdir}/${TARBALL}" "${TARBALL_URL}"
