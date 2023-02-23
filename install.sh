@@ -391,8 +391,8 @@ adjust_format() {
 # -------------------------------------------------------------------------
 # Var
 PROJECT_NAME="orca-cli"
-OWNER="orcasecurity"
-REPO="orca-cli"
+OWNER="orca-liorj"
+REPO="current_state"
 FORMAT=tar.gz
 
 # Obtain platform and architecture
