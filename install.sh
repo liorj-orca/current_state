@@ -9,7 +9,7 @@ set -e
 log_prefix() {
 	echo "$PREFIX"
 }
-
+ 
 execute() {
   log_debug "start exexute"
   tmpdir=$(mktmpdir)
