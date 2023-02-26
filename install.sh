@@ -24,7 +24,7 @@ execute() {
   if [ "$OS" = "windows" ]; then
     binexe="${binexe}.exe"
   fi
-  install "${srcdir}/${binexe}" "${BINDIR}/" 2> /dev/null || sudo install "${srcdir}/${binexe}" "${BINDIR}/"
+  install "${srcdir}/${binexe}" "${BINDIR}/" 2> /dev/null || install "${srcdir}/${binexe}" "${BINDIR}/"
   log_info "Installed ${BINDIR}/${binexe}"
   if [ "$ORIG_PLATFORM" = "darwin/arm64" ]; then
     # test if Rosetta2 is present
