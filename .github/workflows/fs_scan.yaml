@@ -10,7 +10,7 @@ jobs:
     name: Orca fs Scan
     runs-on: ubuntu-latest
     env:
-      PROJECT_KEY: default # Set the desired project to run the cli scanning with
+      PROJECT_KEY: default2 # Set the desired project to run the cli scanning with
     steps:
       # Checkout your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
