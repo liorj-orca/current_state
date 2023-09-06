@@ -23,4 +23,4 @@ jobs:
           project_key: ${{ env.PROJECT_KEY }}
           path:
             # scanning directories: ./terraform/ ./sub-dir/ and a file: ./Dockerfile
-            "."
+            "./pom.xml"
