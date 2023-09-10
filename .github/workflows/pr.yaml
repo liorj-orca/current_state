@@ -6,8 +6,8 @@ on:
     branches:
       - main
 jobs:
-  check-pr:
-    name: Check PR
+  secret_check:
+    name: secret_check
     runs-on: ubuntu-latest
     steps:
       # Checkout your repository under $GITHUB_WORKSPACE, so your job can access it
