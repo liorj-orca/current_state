@@ -16,5 +16,6 @@ jobs:
 
       - shell: bash
         run: |
+          printenv
           curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash -s
           orca-cli -p default --api-token ${{ secrets.ORCA_SECURITY_API_TOKEN }} secrets scan --path .  --from-commit 03f6689
