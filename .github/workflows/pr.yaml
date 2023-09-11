@@ -38,6 +38,7 @@ jobs:
         if: always()
         shell: bash
         run: |
+          git config --global fetch.prune false
           git fetch --all
           git reflog
           git branch -a
