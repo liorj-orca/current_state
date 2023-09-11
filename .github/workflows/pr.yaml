@@ -16,7 +16,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - shell: bash
+      - name: for the first ever commit 
+        shell: bash
         run: |
           curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash -s
           orca-cli -p default --api-token ${{ secrets.ORCA_SECURITY_API_TOKEN }} secrets scan --path .  --from-commit 03f6689796b4c982812be8b40ba53811830bb164
+      - name: from-commit no such commit 
+        shell: bash
+        run: |
+          curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash -s
+          orca-cli -p default --api-token ${{ secrets.ORCA_SECURITY_API_TOKEN }} secrets scan --path .  --from-commit 03f6689796b4c982812be8b40ba53811830bb163
+          - name: from-commit no such commit 
+      - name: from-commit no commit at all     
+        shell: bash
+        run: |
+          curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash -s
+          orca-cli -p default --api-token ${{ secrets.ORCA_SECURITY_API_TOKEN }} secrets scan --path .  --from-commit 
