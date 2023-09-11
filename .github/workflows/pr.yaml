@@ -34,3 +34,9 @@ jobs:
         run: |
           curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash -s
           orca-cli -p default --api-token ${{ secrets.ORCA_SECURITY_API_TOKEN }} secrets scan --path .  --from-commit 
+      - name: full history
+        if: always()
+        shell: bash
+        run: |
+          curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash -s
+          orca-cli -p default --api-token ${{ secrets.ORCA_SECURITY_API_TOKEN }} secrets scan --path .  --ignore-git-history-baseline 
