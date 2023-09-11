@@ -46,6 +46,12 @@ jobs:
         run: |
           curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash -s
           orca-cli -p default --api-token ${{ secrets.ORCA_SECURITY_API_TOKEN }} secrets scan --path . --from-commit b02f437f1bc43cf8af34cf6d16d47614296230f7 --to-commit 05b865d0c31e3c7eafe5f60e057ce1c17bb56b13
+      - name: from-commit to-commit oppiste
+        if: always()
+        shell: bash
+        run: |
+          curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash -s
+          orca-cli -p default --api-token ${{ secrets.ORCA_SECURITY_API_TOKEN }} secrets scan --path . --from-commit f01d2f6b68821fe3fdae8984fa8cbe68378f1d08 --to-commit 5a7e202bc669aa05353d7f7dd17770950a5f9078
       - name: full history
         if: always()
         shell: bash
