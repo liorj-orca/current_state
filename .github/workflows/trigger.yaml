@@ -1,0 +1,14 @@
+name: Update CLI Version
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: [test]
+    types:
+      - completed
+jobs:
+  test-after-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: blabla
+        run: echo "this is a  not test"
