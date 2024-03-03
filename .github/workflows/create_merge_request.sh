@@ -1,5 +1,5 @@
 #!/bin/bash
-
+echo test test
 # GitHub repository details
 REPO=$1
 BRANCH=$2
