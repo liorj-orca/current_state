@@ -1,0 +1,23 @@
+name: Create Merge Request
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *"
+
+jobs:
+  create-merge-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Git
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+
+      - name: Run script to create merge request
+        run: |
+          bash create_merge_request.sh "project_id" "target_branch" "Merge Request Title" "Merge Request Body"
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
