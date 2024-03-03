@@ -1,44 +1,58 @@
 #!/bin/bash
 
-# GitLab repository details
-REPO=$1
-BRANCH=$2
-TITLE=$3
-BODY=$4
+# GitLab API details
+GITLAB_API_URL="https://gitlab.example.com/api/v4"
+PROJECT_ID="your_project_id"
+SOURCE_BRANCH="feature-branch"
+TARGET_BRANCH="main"
+API_TOKEN="your_api_token"
 
-# Clone the repository
-git clone "https://gitlab.com/$REPO" temp_repo
-cd temp_repo
+# Create Merge Request
+create_mr_response=$(curl --request POST --header "PRIVATE-TOKEN: $API_TOKEN" \
+  --data "source_branch=$SOURCE_BRANCH" \
+  --data "target_branch=$TARGET_BRANCH" \
+  "$GITLAB_API_URL/projects/$PROJECT_ID/merge_requests")
 
-# Make changes to the repository
-# For demonstration purposes, let's edit an existing file
-echo "Changes" >> existing_file.txt
+# Extract Merge Request ID from the response
+MR_ID=$(echo "$create_mr_response" | jq -r '.id')
 
-# Add and commit changes
-git add existing_file.txt
-git commit -m "Automated changes"
+echo "Merge Request created successfully. ID: $MR_ID"
 
-# Generate a random string for the branch name
-RANDOM_BRANCH=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 10 | head -n 1)
+# Modify existing file and add test secret
+file_content=$(curl --header "PRIVATE-TOKEN: $API_TOKEN" \
+  "$GITLAB_API_URL/projects/$PROJECT_ID/repository/files/test.py?ref=$SOURCE_BRANCH" | jq -r '.content')
 
-# Create a new branch
-git checkout -b $RANDOM_BRANCH
+# Add the test secret to the file content
+new_content="$file_content\n# Added by CI/CD\nTEST_SECRET = 'your_test_secret'\n"
 
-# Push the branch to GitLab
-git push origin $RANDOM_BRANCH
+# Update the file with the new content
+update_file_response=$(curl --request PUT --header "PRIVATE-TOKEN: $API_TOKEN" \
+  --data-urlencode "branch=$SOURCE_BRANCH" \
+  --data-urlencode "content=$new_content" \
+  --data "commit_message=Add test secret" \
+  "$GITLAB_API_URL/projects/$PROJECT_ID/repository/files/test.py")
 
-# Create a merge request
-curl --request POST \
-     --header "PRIVATE-TOKEN: $GITLAB_TOKEN" \
-     --header "Content-Type: application/json" \
-     --data '{
-         "source_branch": "'"$RANDOM_BRANCH"'",
-         "target_branch": "'"$BRANCH"'",
-         "title": "'"$TITLE"'",
-         "description": "'"$BODY"'"
-     }' \
-     "https://gitlab.com/api/v4/projects/$REPO/merge_requests"
+echo "File updated with test secret."
 
-# Cleanup: Remove temporary cloned repository
-cd ..
-rm -rf temp_repo
+# Wait for pipeline to succeed or timeout
+timeout_seconds=60
+end_time=$((SECONDS + timeout_seconds))
+
+while [ $SECONDS -lt $end_time ]; do
+  pipeline_status=$(curl --header "PRIVATE-TOKEN: $API_TOKEN" \
+    "$GITLAB_API_URL/projects/$PROJECT_ID/pipelines?ref=$SOURCE_BRANCH" | jq -r '.[0].status')
+
+  if [ "$pipeline_status" == "success" ]; then
+    echo "111111"  # Pipeline succeeded!
+    exit 0
+  elif [ "$pipeline_status" == "failed" ] || [ "$pipeline_status" == "canceled" ]; then
+    echo "222222"  # Pipeline failed or was canceled.
+    exit 1
+  else
+    echo "Pipeline status: $pipeline_status. Waiting for success..."
+    sleep 5  # Adjust the sleep interval as needed
+  fi
+done
+
+echo "222222"  # Timeout reached.
+exit 1
