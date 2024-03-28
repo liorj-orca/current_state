@@ -1,6 +1,6 @@
 param (
     [string]$tag,
-    [string]$binDir
+    [string]$binDir = "."
 )
 
 # When this option is on, PowerShell will stop executing if any command fails
@@ -27,12 +27,35 @@ function Validate-Tag {
     }
 }
 
+# Detect architecture
+function Get-Architecture {
+    # Check if the OS is 64-bit
+    $is64bit = [Environment]::Is64BitOperatingSystem
+
+    # Determine the processor architecture
+    if ($is64bit) {
+        if ([System.Environment]::GetEnvironmentVariable("PROCESSOR_ARCHITECTURE") -eq "AMD64") {
+			return "amd64"
+        } else {
+            return "arm64"
+        }
+    } else {
+        Write-Output "At this moment 32-bit Architecture is not supported."
+		exit 1
+    }
+}
+
 function Download-InstallOrcaCLI {
     param(
         [string]$tag,
         [string]$binDir
     )
 
+    $arch = Get-Architecture
+    $tarballUrl = "https://github.com/orcasecurity/orca-cli/releases/download/$tag/orca-cli_$($tag)_windows_$arch.zip"
+    $checksumUrl = "https://github.com/orcasecurity/orca-cli/releases/download/$tag/orca-cli_$($tag)_checksums.txt"
+    Write-Output "Downloading orca-cli.exe, version: $($tag)"
+    
     $tempDirName = "orca-cli_temp_" + (Get-Random)
     $tempDir = New-Item -ItemType Directory -Path $env:TEMP -Name $tempDirName | Select-Object -ExpandProperty FullName
     Write-Output "Downloading files into $($tempDir)"
@@ -62,24 +85,6 @@ function Download-InstallOrcaCLI {
     Remove-Item -Path $tempDir -Force -Recurse
 }
 
-# Detect architecture
-function Get-Architecture {
-    # Check if the OS is 64-bit
-    $is64bit = [Environment]::Is64BitOperatingSystem
-
-    # Determine the processor architecture
-    if ($is64bit) {
-        if ([System.Environment]::GetEnvironmentVariable("PROCESSOR_ARCHITECTURE") -eq "AMD64") {
-			return "amd64"
-        } else {
-            return "arm64"
-        }
-    } else {
-        Write-Output "At this moment 32-bit Architecture is not supported."
-		exit 1
-    }
-}
-
 if (-not $tag) {
     $tag = Get-LatestVersion
 } elseif (-not (Validate-Tag -tag $tag)) {
@@ -87,13 +92,4 @@ if (-not $tag) {
     exit
 }
 
-if (-not $binDir) {
-    $binDir = "."
-}
-
-$arch = Get-Architecture
-
-$tarballUrl = "https://github.com/orcasecurity/orca-cli/releases/download/$tag/orca-cli_$($tag)_windows_$arch.zip"
-$checksumUrl = "https://github.com/orcasecurity/orca-cli/releases/download/$tag/orca-cli_$($tag)_checksums.txt"
-Write-Output "Downloading orca-cli.exe, version: $($tag)"
 Download-InstallOrcaCLI -tag $tag -binDir $binDir
