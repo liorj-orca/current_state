@@ -1,5 +1,5 @@
 param (
-    [string]$tag
+    [string]$tag,
     [string]$binDir
 )
 
