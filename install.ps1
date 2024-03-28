@@ -1,6 +1,6 @@
 param (
     [string]$tag
-	[string]$binDir
+    [string]$binDir
 )
 
 # When this option is on, PowerShell will stop executing if any command fails
