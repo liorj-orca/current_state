@@ -5,6 +5,7 @@ param (
 
 # When this option is on, PowerShell will stop executing if any command fails
 $ErrorActionPreference = "Stop"
+$ProgressPreference = 'SilentlyContinue'
 
 function Get-LatestVersion {
     $url = "https://api.github.com/repos/orcasecurity/orca-cli/releases/latest"
